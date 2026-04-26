@@ -1,0 +1,666 @@
+/* ============================================ */
+/* ОБЩИЙ СБРОС */
+/* ============================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ============================================ */
+/* ФОН И БАЗОВЫЕ СТИЛИ */
+/* ============================================ */
+body {
+  background: #f5f7fb;
+  color: #1f2937;
+  padding: 0;
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 20px;
+}
+
+/* ============================================ */
+/* ШАПКА — КРИТИЧЕСКИЕ ИСПРАВЛЕНИЯ */
+/* ============================================ */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  padding: 14px 20px;
+  gap: 16px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  border: 1px solid #e5e7eb;
+  width: 100%;
+  position: sticky;
+  top: 14px;
+  z-index: 1000;
+  min-height: auto;
+}
+
+.logo {
+  height: 32px;
+  width: auto;
+  max-width: 100px;
+  object-fit: contain;
+  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.5));
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+/* Навигация */
+.nav-tab {
+  padding: 8px 12px;
+  background: #f5f7fa;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #111827;
+  text-decoration: none;
+  transition: background 0.2s;
+  backdrop-filter: blur(2px);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.nav-tab:hover,
+.nav-tab.active {
+  background: #e5e7eb;
+}
+
+/* Выпадающее меню */
+.nav-dropdown {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.nav-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 170px;
+  z-index: 1000;
+}
+
+.nav-menu a {
+  display: block;
+  padding: 10px 16px;
+  text-decoration: none;
+  color: #111827;
+  transition: background 0.2s;
+}
+
+.nav-menu a:hover {
+  background: #f3f4f6;
+}
+
+/* Поиск — ВАЖНО: без position absolute! */
+.search-box {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-grow: 1;
+  max-width: 300px;
+  min-width: 150px;
+  flex-shrink: 1;
+  position: relative;
+  order: 4; /* Поиск всегда в конце на мобильных */
+}
+
+.search-box input {
+  width: 100%;
+  padding: 6px 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  background: #f3f4f6;
+  color: #1f2937;
+  backdrop-filter: blur(2px);
+  font-size: 13px;
+}
+
+.search-box input::placeholder {
+  color: #6b7280;
+}
+
+.search-box button {
+  padding: 6px 10px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #111827;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+.search-box button:hover {
+  background: #f3f4f6;
+}
+
+/* ============================================ */
+/* ОСНОВНОЙ КОНТЕНТ */
+/* ============================================ */
+.main-content {
+  display: flex;
+  gap: 20px;
+  flex: 1;
+  margin-top: 15px;
+  padding: 0 15px;
+  justify-content: center;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+.content-section {
+  display: flex;
+  gap: 15px;
+  align-items: flex-start;
+  max-width: 1000px;
+  width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+/* ============================================ */
+/* ВИДЕО */
+/* ============================================ */
+.video-placeholder {
+  position: relative;
+  width: 200px;
+  height: 355px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  background: #fff;
+  flex-shrink: 0;
+  border: 1px solid #e5e7eb;
+}
+
+.video-player {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #f3f4f6;
+  border-radius: 12px;
+}
+
+/* ============================================ */
+/* БЛОКИ СПРАВА */
+/* ============================================ */
+.charts-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.favorite-btn {
+  padding: 6px 12px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #111827;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+.favorite-btn:hover {
+  background: #f3f4f6;
+}
+
+/* ============================================ */
+/* ФИЛЬТРЫ */
+/* ============================================ */
+.filters {
+  width: 220px;
+  min-width: 220px;
+  height: 355px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e5e7eb;
+  flex-shrink: 0;
+}
+
+.filter-dropdown {
+  position: relative;
+  width: 100%;
+}
+
+.filter-toggle {
+  width: 100%;
+  padding: 8px 12px;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #111827;
+  text-align: left;
+  transition: background 0.2s, transform 0.1s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filter-toggle:hover {
+  background: #e5e7eb;
+  transform: scale(1.02);
+}
+
+.filter-toggle::after {
+  content: "▼";
+  font-size: 12px;
+  margin-left: 4px;
+}
+
+.filter-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  margin-top: 4px;
+  padding: 12px;
+  max-width: 100%;
+}
+
+.filter-menu .filter-group {
+  margin-bottom: 10px;
+}
+
+.filter-menu label {
+  display: block;
+  font-size: 11px;
+  margin-bottom: 4px;
+  color: #374151;
+  font-weight: bold;
+}
+
+.range-inputs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.range-inputs input {
+  width: 45%;
+  padding: 4px 6px;
+  border: 1px solid #e5e7eb;
+  background: #f3f4f6;
+  color: #111827;
+  border-radius: 4px;
+  font-size: 11px;
+  text-align: center;
+  outline: none;
+}
+
+.range-inputs span {
+  color: #6b7280;
+  font-weight: bold;
+  font-size: 11px;
+}
+
+.apply-btn {
+  width: 100%;
+  padding: 6px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s;
+  margin-top: 8px;
+  font-size: 13px;
+}
+
+.apply-btn:hover {
+  background: #2563eb;
+}
+
+/* ============================================ */
+/* КАРТОЧКИ */
+/* ============================================ */
+.chart-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  border: 1px solid #e5e7eb;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 0;
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.chart-header h4 {
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #111827;
+}
+
+.more {
+  font-size: 11px;
+  color: #6b7280;
+  cursor: pointer;
+}
+
+.chart-area img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.chart-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.info-stats {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  border-top: 1px solid #e5e7eb;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.info-stats div {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #374151;
+}
+
+/* ============================================ */
+/* ФУТЕР */
+/* ============================================ */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: #fff;
+  border-radius: 8px 8px 0 0;
+  color: #374151;
+  font-size: 12px;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(0,0,0,0.05);
+  width: 100%;
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+/* ============================================ */
+/* АДАПТИВНОСТЬ — ПЛАНШЕТЫ (768px - 1024px) */
+/* ============================================ */
+@media (max-width: 1024px) {
+  .header {
+    padding: 8px 12px;
+    gap: 8px;
+  }
+
+  .logo {
+    max-width: 80px;
+    height: 28px;
+  }
+
+  .nav-tab {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .search-box {
+    max-width: 200px;
+    min-width: 120px;
+    order: 4;
+    width: 100%;
+    margin-top: 5px;
+  }
+
+  .main-content {
+    flex-direction: column;
+    padding: 0 12px;
+    margin-top: 12px;
+  }
+
+  .content-section {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 12px;
+  }
+
+  .filters {
+    width: 100%;
+    max-width: 280px;
+    min-width: auto;
+  }
+
+  .video-placeholder {
+    width: 100%;
+    max-width: 260px;
+    height: 462px;
+  }
+
+  .charts-container {
+    width: 100%;
+    max-width: 350px;
+  }
+
+  .chart-card {
+    padding: 10px;
+  }
+}
+
+/* ============================================ */
+/* АДАПТИВНОСТЬ — МОБИЛЬНЫЕ (481px - 768px) */
+/* ============================================ */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 8px 10px;
+    gap: 8px;
+    justify-content: flex-start;
+  }
+
+  .logo {
+    order: 1;
+    height: 26px;
+    max-width: 70px;
+  }
+
+  .nav-dropdown {
+    order: 2;
+  }
+
+  .nav-tab {
+    order: 3;
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+
+  .search-box {
+    order: 4;
+    width: 100%;
+    max-width: none;
+    min-width: auto;
+    margin-top: 5px;
+  }
+
+  .main-content {
+    padding: 0 10px;
+    margin-top: 10px;
+  }
+
+  .content-section {
+    gap: 10px;
+  }
+
+  .filters {
+    width: 100%;
+    max-width: none;
+    padding: 10px;
+  }
+
+  .video-placeholder {
+    width: 100%;
+    max-width: 240px;
+    height: 426px;
+  }
+
+  .charts-container {
+    width: 100%;
+    max-width: none;
+  }
+
+  .chart-card {
+    padding: 8px;
+  }
+
+  .chart-header h4 {
+    font-size: 12px;
+  }
+
+  .info-stats {
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .info-stats div {
+    font-size: 11px;
+  }
+
+  .footer {
+    flex-direction: column;
+    gap: 6px;
+    text-align: center;
+    padding: 8px;
+    font-size: 11px;
+  }
+}
+
+/* ============================================ */
+/* АДАПТИВНОСТЬ — ОЧЕНЬ МАЛЕНЬКИЕ (< 480px) */
+/* ============================================ */
+@media (max-width: 480px) {
+  .header {
+    padding: 6px 8px;
+    gap: 6px;
+  }
+
+  .logo {
+    height: 24px;
+    max-width: 60px;
+  }
+
+  .nav-tab {
+    padding: 5px 8px;
+    font-size: 11px;
+  }
+
+  .search-box {
+    width: 100%;
+    max-width: none;
+    min-width: auto;
+  }
+
+  .search-box input {
+    padding: 5px 8px;
+    font-size: 12px;
+  }
+
+  .search-box button {
+    padding: 5px 8px;
+  }
+
+  .video-placeholder {
+    width: 100%;
+    max-width: 220px;
+    height: 391px;
+  }
+
+  .container {
+    padding: 8px;
+  }
+
+  .filter-menu {
+    max-width: 100%;
+  }
+
+  .chart-card {
+    padding: 8px;
+  }
+
+  .chart-header h4 {
+    font-size: 11px;
+  }
+
+  .info-stats div {
+    font-size: 10px;
+  }
+
+  .footer {
+    font-size: 10px;
+  }
+}
+
+/* ============================================ */
+/* ПРЕДОТВРАЩЕНИЕ ГОРИЗОНТАЛЬНОЙ ПРОКРУТКИ */
+/* ============================================ */
+body, .container, .main-content, .content-section {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}

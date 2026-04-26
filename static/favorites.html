@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ClipOracle — Избранное</title>
+  <link rel="stylesheet" href="favorites.css" />
+</head>
+<body>
+  <div class="container">
+    <!-- Шапка — на всю ширину -->
+    <header class="header">
+      <img src="logo.png" alt="ClipOracle Logo" class="logo" />
+    </header>
+
+    <!-- Основной контент -->
+    <main class="main-content">
+      <div id="favorites-container" class="favorites-list">
+        <!-- Динамически загружается из localStorage -->
+      </div>
+    </main>
+
+    <footer class="footer">
+      <span>(C) CLIPORACLE 2025</span>
+      <span>cliporacle@gmail.com</span>
+    </footer>
+  </div>
+
+  <!-- Полноэкранный плеер -->
+  <div id="fullscreen-player" class="fullscreen-player">
+    <div class="player-controls">
+      <button id="close-fullscreen">✖️</button>
+    </div>
+    <video id="fullscreen-video" controls></video>
+  </div>
+
+<script>
+  function loadFavorites() {
+    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    const container = document.getElementById('favorites-container');
+    container.innerHTML = '';
+
+    if (favorites.length === 0) {
+      return; // Пусто — ничего не показываем
+    }
+
+    favorites.forEach(fav => {
+      const item = document.createElement('div');
+      item.className = 'favorite-item';
+      item.innerHTML = `
+        <div class="video-thumb" data-id="${fav.id}" data-path="${fav.file_path || ''}">
+          <img src="https://via.placeholder.com/120x68?text=Видео" alt="Video" />
+          <div class="play-button">▶</div>
+        </div>
+        <div class="video-info">
+          <h4>${escapeHtml(fav.title || 'Без названия')}</h4>
+          <div class="stats">
+            <span>👁️ ${fav.views || 0}</span>
+            <span>👤 ${fav.likes || 0}</span>
+            <span>❤️ ${fav.comments || 0}</span>
+            <span>📤 ${fav.shares || 0}</span>
+          </div>
+        </div>
+        <button class="delete-btn" data-id="${fav.id}">🗑️</button>
+      `;
+
+      // Клик по кнопке ▶ — открываем видео
+      item.querySelector('.play-button').addEventListener('click', (e) => {
+        e.stopPropagation();
+        openFullscreenVideo(fav);
+      });
+
+      // Клик по кнопке удалить
+      item.querySelector('.delete-btn').addEventListener('click', (e) => {
+        e.stopPropagation();
+        removeFavorite(fav.id);
+      });
+
+      container.appendChild(item);
+    });
+  }
+
+  // Открыть видео в полноэкранном режиме
+  function openFullscreenVideo(videoData) {
+    const fullscreenPlayer = document.getElementById('fullscreen-player');
+    const video = document.getElementById('fullscreen-video');
+
+    // Проверка: есть ли file_path?
+    if (!videoData.file_path) {
+      alert('Нет пути к видео');
+      return;
+    }
+
+    // Устанавливаем источник видео
+    const fileName = videoData.file_path.split('/').pop();
+    const videoUrl = `/data/videos/${fileName}`;
+    video.src = videoUrl;
+    video.load();
+
+    // Показываем плеер
+    fullscreenPlayer.style.display = 'flex';
+
+    // Запускаем полноэкранный режим
+    if (fullscreenPlayer.requestFullscreen) {
+      fullscreenPlayer.requestFullscreen();
+    } else if (fullscreenPlayer.webkitRequestFullscreen) { /* Safari */
+      fullscreenPlayer.webkitRequestFullscreen();
+    } else if (fullscreenPlayer.msRequestFullscreen) { /* IE11 */
+      fullscreenPlayer.msRequestFullscreen();
+    }
+  }
+
+  // Закрыть полноэкранный плеер
+  document.getElementById('close-fullscreen').addEventListener('click', () => {
+    const fullscreenPlayer = document.getElementById('fullscreen-player');
+    const video = document.getElementById('fullscreen-video');
+
+    // Останавливаем видео
+    video.pause();
+    video.src = '';
+
+    // Выходим из полноэкранного режима
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) {
+      document.msExitFullscreen();
+    }
+
+    // Скрываем плеер
+    fullscreenPlayer.style.display = 'none';
+  });
+
+  // Удалить из избранного
+  function removeFavorite(id) {
+    let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    favorites = favorites.filter(fav => fav.id !== id);
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+    loadFavorites(); // Перезагружаем
+  }
+
+
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    loadFavorites();
+
+    // Клик по логотипу — возврат на главную
+    document.querySelector('.logo').addEventListener('click', () => {
+      window.location.href = 'index.html';
+    });
+  });
+</script>
+</body>
+</html>
