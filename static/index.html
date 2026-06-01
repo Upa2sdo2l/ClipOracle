@@ -4,30 +4,40 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ClipOracle — Категории</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
-    <!-- Шапка -->
     <!-- Шапка -->
     <header class="header">
       <img src="logo.png" alt="ClipOracle Logo" class="logo" />
 
       <!-- Выпадающее меню навигации -->
       <div class="nav-dropdown">
-        <button class="nav-tab active" id="nav-categories">Категории ▼</button>
+        <button class="nav-tab active" id="nav-categories" data-i18n="categories">Категории ▼</button>
         <div class="nav-menu">
           <!-- Загрузится через JS -->
         </div>
       </div>
 
-      <a href="favorites.html" class="nav-tab" id="favorites-tab">Избранное</a>
+      <a href="favorites.html" class="nav-tab" id="favorites-tab" data-i18n="favorites">Избранное</a>
 
+      <div class="lang-switcher">
+        <span class="lang-label">RU</span>
+        <label class="lang-toggle">
+          <input type="checkbox" id="lang-checkbox">
+          <span class="lang-slider"></span>
+        </label>
+        <span class="lang-label">EN</span>
+      </div>
 
       <!-- Поиск (скрывается на мобильных) -->
       <div class="search-box">
-        <input type="text" placeholder="Search" />
-        <button>🔍</button>
+        <input type="text" placeholder="Search" id="search-input" data-i18n-placeholder="search_placeholder" />
+        <button><img src="Icons/Magnifier.svg" class="icon" alt="search"></button>
       </div>
     </header>
 
@@ -39,45 +49,45 @@
         <!-- Левая колонка: фильтры -->
         <aside class="filters">
           <div class="filter-dropdown">
-            <button class="filter-toggle">Фильтры</button>
+            <button class="filter-toggle" data-i18n="filters">Фильтры</button>
             <div class="filter-menu">
               <div class="filter-group">
-                <label>Просмотры</label>
+                <label data-i18n="views">Просмотры</label>
                 <div class="range-inputs">
-                  <input type="number" id="min-views" placeholder="Мин" min="0" />
+                  <input type="number" id="min-views" placeholder="Мин" min="0" data-i18n-placeholder="min" />
                   <span>—</span>
-                  <input type="number" id="max-views" placeholder="Макс" min="0" />
+                  <input type="number" id="max-views" placeholder="Макс" min="0" data-i18n-placeholder="max" />
                 </div>
               </div>
 
               <div class="filter-group">
-                <label>Лайки</label>
+                <label data-i18n="likes">Лайки</label>
                 <div class="range-inputs">
-                  <input type="number" id="min-likes" placeholder="Мин" min="0" />
+                  <input type="number" id="min-likes" placeholder="Мин" min="0" data-i18n-placeholder="min" />
                   <span>—</span>
-                  <input type="number" id="max-likes" placeholder="Макс" min="0" />
+                  <input type="number" id="max-likes" placeholder="Макс" min="0" data-i18n-placeholder="max" />
                 </div>
               </div>
 
               <div class="filter-group">
-                <label>Комментарии</label>
+                <label data-i18n="comments">Комментарии</label>
                 <div class="range-inputs">
-                  <input type="number" id="min-comments" placeholder="Мин" min="0" />
+                  <input type="number" id="min-comments" placeholder="Мин" min="0" data-i18n-placeholder="min" />
                   <span>—</span>
-                  <input type="number" id="max-comments" placeholder="Макс" min="0" />
+                  <input type="number" id="max-comments" placeholder="Макс" min="0" data-i18n-placeholder="max" />
                 </div>
               </div>
 
               <div class="filter-group">
-                <label>Репосты</label>
+                <label data-i18n="shares">Репосты</label>
                 <div class="range-inputs">
-                  <input type="number" id="min-shares" placeholder="Мин" min="0" />
+                  <input type="number" id="min-shares" placeholder="Мин" min="0" data-i18n-placeholder="min" />
                   <span>—</span>
-                  <input type="number" id="max-shares" placeholder="Макс" min="0" />
+                  <input type="number" id="max-shares" placeholder="Макс" min="0" data-i18n-placeholder="max" />
                 </div>
               </div>
 
-              <button id="apply-filters" class="apply-btn">Применить</button>
+              <button id="apply-filters" class="apply-btn" data-i18n="apply">Применить</button>
             </div>
           </div>
         </aside>
@@ -94,8 +104,8 @@
         <section class="charts-container">
           <div class="chart-card">
             <div class="chart-header">
-              <h4>ПРОСМОТРЫ</h4>
-              <span class="more">more</span>
+              <h4 data-i18n="views_header">ПРОСМОТРЫ</h4>
+              <span class="more" data-i18n="more">more</span>
             </div>
             <div class="chart-area">
               <img src="https://via.placeholder.com/300x150?text=График+Просмотров" alt="Views Chart" />
@@ -108,18 +118,18 @@
 
           <div class="chart-card">
             <div class="chart-header">
-              <h4>ОСНОВНАЯ ИНФОРМАЦИЯ</h4>
-              <span class="more">more</span>
+              <h4 data-i18n="info_header">ОСНОВНАЯ ИНФОРМАЦИЯ</h4>
+              <span class="more" data-i18n="more">more</span>
             </div>
             <div class="info-stats">
-              <div><span>👁️</span> <span id="views">0</span></div>
-              <div><span>👤</span> <span id="likes">0</span></div>
-              <div><span>❤️</span> <span id="comments">0</span></div>
-              <div><span>📤</span> <span id="shares">0</span></div>
+              <div><img src="Icons/BaselineRemoveRedEye.svg" class="icon" alt="views"> <span id="views">0</span></div>
+              <div><img src="Icons/InterfaceUserSingleCloseGeometricHumanPersonSingleUpUser.svg" class="icon" alt="likes"> <span id="likes">0</span></div>
+              <div><img src="Icons/Like.svg" class="icon" alt="comments"> <span id="comments">0</span></div>
+              <div><img src="Icons/Repost.svg" class="icon" alt="shares"> <span id="shares">0</span></div>
             </div>
             <!-- Кнопка "Добавить в избранное" -->
             <div style="margin-top: 12px; text-align: center;">
-              <button id="add-to-favorites" class="favorite-btn">❤️ Добавить в избранное</button>
+              <button id="add-to-favorites" class="favorite-btn" data-i18n="add_fav"><img src="Icons/Like_not_active.svg" class="icon" id="fav-icon" alt="like"> Добавить в избранное</button>
             </div>
           </div>
         </section>
@@ -225,10 +235,19 @@
       document.getElementById('likes').textContent = video.likes || '0';
       document.getElementById('comments').textContent = video.comments || '0';
       document.getElementById('shares').textContent = video.shares || '0';
-
+ 
       // Сохраняем текущее видео для "избранного"
       window.currentVideo = video;
+ 
+      // Проверяем, находится ли текущее видео в избранном, и обновляем иконку
+      const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+      const isFavorite = favorites.some(fav => fav.id === video.id);
+      const favIcon = document.getElementById('fav-icon');
+      if (favIcon) {
+        favIcon.src = isFavorite ? 'Icons/Like.svg' : 'Icons/Like_not_active.svg';
+      }
     }
+
 
     // Добавить в избранное
     document.getElementById('add-to-favorites').addEventListener('click', () => {
@@ -256,6 +275,16 @@
       });
 
       localStorage.setItem('favorites', JSON.stringify(favorites));
+      
+      // Плавная смена иконки
+      const favIcon = document.getElementById('fav-icon');
+      favIcon.classList.add('icon-fade');
+      
+      setTimeout(() => {
+        favIcon.src = 'Icons/Like.svg';
+        favIcon.classList.remove('icon-fade');
+      }, 200);
+
       alert('Видео добавлено в избранное!');
     });
 
@@ -263,6 +292,61 @@
     document.addEventListener('DOMContentLoaded', () => {
       loadCategories();
       loadRandomVideo(); // Первое случайное видео
+
+      // Переключение языка
+      const langCheckbox = document.getElementById('lang-checkbox');
+      const translations = {
+        ru: {
+          categories: 'Категории ▼',
+          favorites: 'Избранное',
+          search_placeholder: 'Поиск',
+          filters: 'Фильтры',
+          views: 'Просмотры',
+          likes: 'Лайки',
+          comments: 'Комментарии',
+          shares: 'Репосты',
+          min: 'Мин',
+          max: 'Макс',
+          apply: 'Применить',
+          views_header: 'ПРОСМОТРЫ',
+          info_header: 'ОСНОВНАЯ ИНФОРМАЦИЯ',
+          more: 'ещё',
+          add_fav: 'Добавить в избранное'
+        },
+        en: {
+          categories: 'Categories ▼',
+          favorites: 'Favorites',
+          search_placeholder: 'Search',
+          filters: 'Filters',
+          views: 'Views',
+          likes: 'Likes',
+          comments: 'Comments',
+          shares: 'Shares',
+          min: 'Min',
+          max: 'Max',
+          apply: 'Apply',
+          views_header: 'VIEWS',
+          info_header: 'BASIC INFO',
+          more: 'more',
+          add_fav: 'Add to favorites'
+        }
+      };
+
+      function updateLanguage(lang) {
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+          const key = el.getAttribute('data-i18n');
+          el.textContent = translations[lang][key];
+        });
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+          const key = el.getAttribute('data-i18n-placeholder');
+          el.placeholder = translations[lang][key];
+        });
+      }
+
+      langCheckbox.addEventListener('change', () => {
+        const lang = langCheckbox.checked ? 'en' : 'ru';
+        updateLanguage(lang);
+      });
 
       document.getElementById('nav-categories').addEventListener('click', function(e) {
         e.stopPropagation();
