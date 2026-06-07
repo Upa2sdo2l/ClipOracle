@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ClipOracle — Категории</title>
+  <link rel="stylesheet" href="../static/style.css" />
+</head>
+<body>
+  <div class="container">
+    <!-- Шапка -->
+    <!-- Шапка -->
+    <header class="header">
+      <img src="../static/logo.png" alt="ClipOracle Logo" class="logo" />
+
+      <!-- Выпадающее меню навигации -->
+      <div class="nav-dropdown">
+        <button class="nav-tab active" id="nav-categories">Категории ▼</button>
+        <div class="nav-menu">
+          <!-- Загрузится через JS -->
+        </div>
+      </div>
+
+      <a href="{% url 'favourites' %}" class="nav-tab" id="favorites-tab">Избранное</a>
+
+
+      <!-- Поиск (скрывается на мобильных) -->
+      <div class="search-box">
+        <input type="text" placeholder="Search" />
+        <button>🔍</button>
+      </div>
+    </header>
+
+
+
+    <!-- Основной контент -->
+    <main class="main-content">
+      <div class="content-section">
+        <!-- Левая колонка: фильтры -->
+        <aside class="filters">
+          <div class="filter-dropdown">
+            <button class="filter-toggle">Фильтры</button>
+            <div class="filter-menu">
+              <div class="filter-group">
+                <label>Просмотры</label>
+                <div class="range-inputs">
+                  <input type="number" id="min-views" placeholder="Мин" min="0" />
+                  <span>—</span>
+                  <input type="number" id="max-views" placeholder="Макс" min="0" />
+                </div>
+              </div>
+
+              <div class="filter-group">
+                <label>Лайки</label>
+                <div class="range-inputs">
+                  <input type="number" id="min-likes" placeholder="Мин" min="0" />
+                  <span>—</span>
+                  <input type="number" id="max-likes" placeholder="Макс" min="0" />
+                </div>
+              </div>
+
+              <div class="filter-group">
+                <label>Комментарии</label>
+                <div class="range-inputs">
+                  <input type="number" id="min-comments" placeholder="Мин" min="0" />
+                  <span>—</span>
+                  <input type="number" id="max-comments" placeholder="Макс" min="0" />
+                </div>
+              </div>
+
+              <div class="filter-group">
+                <label>Репосты</label>
+                <div class="range-inputs">
+                  <input type="number" id="min-shares" placeholder="Мин" min="0" />
+                  <span>—</span>
+                  <input type="number" id="max-shares" placeholder="Макс" min="0" />
+                </div>
+              </div>
+
+              <button id="apply-filters" class="apply-btn">Применить</button>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Центр: видео -->
+        <section class="video-placeholder">
+          <video controls class="video-player" poster="https://via.placeholder.com/200x355/1e1e1e/ffffff?text=Loading...">
+            <source src="" type="video/mp4">
+            Ваш браузер не поддерживает видео.
+          </video>
+        </section>
+
+        <!-- Правая колонка: блоки информации -->
+        <section class="charts-container">
+          <div class="chart-card">
+            <div class="chart-header">
+              <h4>ПРОСМОТРЫ</h4>
+              <span class="more">more</span>
+            </div>
+            <div class="chart-area">
+              <img src="https://via.placeholder.com/300x150?text=График+Просмотров" alt="Views Chart" />
+              <div class="chart-labels">
+                <span>2дек</span>
+                <span>7дек</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-header">
+              <h4>ОСНОВНАЯ ИНФОРМАЦИЯ</h4>
+              <span class="more">more</span>
+            </div>
+            <div class="info-stats">
+              <div><span>👁️</span> <span id="views">0</span></div>
+              <div><span>👤</span> <span id="likes">0</span></div>
+              <div><span>❤️</span> <span id="comments">0</span></div>
+              <div><span>📤</span> <span id="shares">0</span></div>
+            </div>
+            <!-- Кнопка "Добавить в избранное" -->
+            <div style="margin-top: 12px; text-align: center;">
+              <button id="add-to-favorites" class="favorite-btn">❤️ Добавить в избранное</button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <span>(C) CLIPORACLE 2025</span>
+      <span>cliporacle@gmail.com</span>
+    </footer>
+  </div>
+
+  <script>
+    let currentCategoryId = null;
+
+    function toggleMobileSearch() {
+      const container = document.getElementById('mobileSearchContainer');
+      container.classList.toggle('active');
+      if (container.classList.contains('active')) {
+        container.querySelector('input').focus();
+      }
+    }
+
+    // Загрузка категорий
+    async function loadCategories() {
+      const res = await fetch('/api/categories');
+      const categories = await res.json();
+      const menu = document.querySelector('.nav-menu');
+      menu.innerHTML = '';
+      categories.forEach(cat => {
+        const a = document.createElement('a');
+        a.href = '#';
+        a.textContent = cat.name;
+        a.addEventListener('click', (e) => {
+          e.preventDefault();
+          currentCategoryId = cat.id;
+          loadRandomVideo();
+          document.getElementById('nav-categories').textContent = cat.name + ' ▼';
+        });
+        menu.appendChild(a);
+      });
+    }
+
+    // Загрузка случайного видео
+    async function loadRandomVideo() {
+      let url = '/api/videos';
+      const params = new URLSearchParams();
+
+      if (currentCategoryId !== null) {
+        params.append('category_id', currentCategoryId);
+      }
+
+      const minViews = document.getElementById('min-views').value;
+      const maxViews = document.getElementById('max-views').value;
+      const minLikes = document.getElementById('min-likes').value;
+      const maxLikes = document.getElementById('max-likes').value;
+      const minComments = document.getElementById('min-comments').value;
+      const maxComments = document.getElementById('max-comments').value;
+      const minShares = document.getElementById('min-shares').value;
+      const maxShares = document.getElementById('max-shares').value;
+
+      if (minViews) params.append('min_views', minViews);
+      if (maxViews) params.append('max_views', maxViews);
+      if (minLikes) params.append('min_likes', minLikes);
+      if (maxLikes) params.append('max_likes', maxLikes);
+      if (minComments) params.append('min_comments', minComments);
+      if (maxComments) params.append('max_comments', maxComments);
+      if (minShares) params.append('min_shares', minShares);
+      if (maxShares) params.append('max_shares', maxShares);
+
+      if (params.toString()) {
+        url += '?' + params.toString();
+      }
+
+      const res = await fetch(url);
+      const videos = await res.json();
+
+      if (videos.length === 0) {
+        alert('Видео по заданным фильтрам не найдено.');
+        const videoPlayer = document.querySelector('.video-player');
+        if (videoPlayer) {
+          videoPlayer.src = '';
+        }
+        document.getElementById('views').textContent = '0';
+        document.getElementById('likes').textContent = '0';
+        document.getElementById('comments').textContent = '0';
+        document.getElementById('shares').textContent = '0';
+        window.currentVideo = null;
+        return;
+      }
+
+      const video = videos[0];
+
+      const videoPlayer = document.querySelector('.video-player');
+      if (videoPlayer && video.file_path) {
+        const fileName = video.file_path.split('/').pop();
+        const videoUrl = `../data/videos/${fileName}`;
+        videoPlayer.src = videoUrl;
+        videoPlayer.load();
+      }
+
+      document.getElementById('views').textContent = video.views || '0';
+      document.getElementById('likes').textContent = video.likes || '0';
+      document.getElementById('comments').textContent = video.comments || '0';
+      document.getElementById('shares').textContent = video.shares || '0';
+
+      // Сохраняем текущее видео для "избранного"
+      window.currentVideo = video;
+    }
+
+    // Добавить в избранное
+    document.getElementById('add-to-favorites').addEventListener('click', () => {
+      if (!window.currentVideo) {
+        alert('Нет видео для добавления');
+        return;
+      }
+
+      let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+
+      const exists = favorites.some(fav => fav.id === window.currentVideo.id);
+      if (exists) {
+        alert('Видео уже в избранном!');
+        return;
+      }
+
+      favorites.push({
+        id: window.currentVideo.id,
+        title: window.currentVideo.genre_name || 'Без названия',
+        views: window.currentVideo.views || 0,
+        likes: window.currentVideo.likes || 0,
+        comments: window.currentVideo.comments || 0,
+        shares: window.currentVideo.shares || 0,
+        file_path: window.currentVideo.file_path || ''
+      });
+
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+      alert('Видео добавлено в избранное!');
+    });
+
+    // Инициализация
+    document.addEventListener('DOMContentLoaded', () => {
+      loadCategories();
+      loadRandomVideo(); // Первое случайное видео
+
+      document.getElementById('nav-categories').addEventListener('click', function(e) {
+        e.stopPropagation();
+        const menu = this.nextElementSibling;
+        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+      });
+
+      document.getElementById('favorites-tab').addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = '{% url 'favourites' %}';
+      });
+
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('.nav-dropdown')) {
+          document.querySelector('.nav-menu').style.display = 'none';
+        }
+      });
+
+      // Фильтры — выпадающее меню
+      document.querySelector('.filter-toggle').addEventListener('click', function(e) {
+        e.stopPropagation();
+        const menu = this.nextElementSibling;
+        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+      });
+
+      // Применить фильтры
+      document.getElementById('apply-filters').addEventListener('click', () => {
+        loadRandomVideo();
+      });
+    });
+  </script>
+</body>
+</html>
