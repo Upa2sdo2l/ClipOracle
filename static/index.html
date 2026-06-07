@@ -93,11 +93,17 @@
         </aside>
 
         <!-- Центр: видео -->
-        <section class="video-placeholder">
-          <video controls class="video-player" poster="https://via.placeholder.com/200x355/1e1e1e/ffffff?text=Loading...">
-            <source src="" type="video/mp4">
-            Ваш браузер не поддерживает видео.
-          </video>
+        <section class="video-container">
+          <div class="video-placeholder">
+            <video controls class="video-player" poster="https://via.placeholder.com/200x355/1e1e1e/ffffff?text=Loading...">
+              <source src="" type="video/mp4">
+              Ваш браузер не поддерживает видео.
+            </video>
+          </div>
+          <div class="video-nav">
+            <button class="nav-arrow" id="prev-video">◀</button>
+            <button class="nav-arrow" id="next-video">▶</button>
+          </div>
         </section>
 
         <!-- Правая колонка: блоки информации -->
@@ -173,6 +179,10 @@
       });
     }
 
+    // Глобальный список видео для навигации
+    let videoList = [];
+    let currentVideoIndex = 0;
+
     // Загрузка случайного видео
     async function loadRandomVideo() {
       let url = '/api/videos';
@@ -181,7 +191,7 @@
       if (currentCategoryId !== null) {
         params.append('category_id', currentCategoryId);
       }
-
+      // ... (собираем параметры фильтров как раньше)
       const minViews = document.getElementById('min-views').value;
       const maxViews = document.getElementById('max-views').value;
       const minLikes = document.getElementById('min-likes').value;
@@ -206,13 +216,14 @@
 
       const res = await fetch(url);
       const videos = await res.json();
+      
+      videoList = videos;
+      currentVideoIndex = 0;
 
-      if (videos.length === 0) {
+      if (videoList.length === 0) {
         alert('Видео по заданным фильтрам не найдено.');
-        const videoPlayer = document.querySelector('.video-player');
-        if (videoPlayer) {
-          videoPlayer.src = '';
-        }
+        // ... (сброс плеера)
+        document.querySelector('.video-player').src = '';
         document.getElementById('views').textContent = '0';
         document.getElementById('likes').textContent = '0';
         document.getElementById('comments').textContent = '0';
@@ -220,9 +231,11 @@
         window.currentVideo = null;
         return;
       }
+      
+      displayVideo(videoList[currentVideoIndex]);
+    }
 
-      const video = videos[0];
-
+    function displayVideo(video) {
       const videoPlayer = document.querySelector('.video-player');
       if (videoPlayer && video.file_path) {
         const fileName = video.file_path.split('/').pop();
@@ -235,10 +248,9 @@
       document.getElementById('likes').textContent = video.likes || '0';
       document.getElementById('comments').textContent = video.comments || '0';
       document.getElementById('shares').textContent = video.shares || '0';
- 
-      // Сохраняем текущее видео для "избранного"
+
       window.currentVideo = video;
- 
+
       // Проверяем, находится ли текущее видео в избранном, и обновляем иконку
       const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
       const isFavorite = favorites.some(fav => fav.id === video.id);
@@ -247,6 +259,7 @@
         favIcon.src = isFavorite ? 'Icons/Like.svg' : 'Icons/Like_not_active.svg';
       }
     }
+
 
 
     // Добавить в избранное
@@ -370,6 +383,18 @@
         e.stopPropagation();
         const menu = this.nextElementSibling;
         menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+      });
+
+      // Навигация видео
+      document.getElementById('prev-video').addEventListener('click', () => {
+        // Если API отдает только одно видео, листание назад по списку невозможно.
+        // Можно реализовать историю просмотренных видео, если нужно.
+        alert('Функция листания назад доступна при загрузке списка.');
+      });
+
+      document.getElementById('next-video').addEventListener('click', () => {
+        // Загружаем новое случайное видео при клике "вперед"
+        loadRandomVideo();
       });
 
       // Применить фильтры

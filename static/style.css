@@ -37,23 +37,71 @@ body {
 /* ============================================ */
 /* ШАПКА — КРИТИЧЕСКИЕ ИСПРАВЛЕНИЯ */
 /* ============================================ */
+@keyframes meshShift {
+  0%, 100% {
+    background-position: 0% 50%, 100% 50%, 50% 0%, 50% 100%, 0% 0%;
+  }
+  50% {
+    background-position: 100% 50%, 0% 50%, 50% 100%, 50% 0%, 100% 100%;
+  }
+}
+
+@keyframes blobMove {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(-20px, 10px) scale(1.1); }
+  66%      { transform: translate(15px, -15px) scale(0.95); }
+}
+
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(255, 255, 255, 0.8);
   padding: 14px 20px;
   gap: 16px;
   border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.05);
-  border: 1px solid rgba(229, 231, 235, 0.5);
   width: 100%;
   position: sticky;
   top: 14px;
   z-index: 1000;
-  min-height: auto;
-  backdrop-filter: blur(12px);
+
+  /* Тёмная база, чтобы цвета "светились" */
+  background: #1a1530;
+
+  overflow: hidden;
+  isolation: isolate; /* важно для z-index слоёв */
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
+
+/* Слой 1: размытые цветные "кляксы" */
+.header::before {
+  content: '';
+  position: absolute;
+  inset: -50px; /* выходим за края, чтобы блюр не обрезался */
+  z-index: -2;
+  background:
+    radial-gradient(ellipse 60% 80% at 10% 30%,  #4f46e5 0%, transparent 99%),
+    radial-gradient(ellipse 50% 70% at 90% 70%,  #ec4899 0%, transparent 99%),
+    radial-gradient(ellipse 70% 50% at 50% 100%, #f97316 0%, transparent 97%),
+    radial-gradient(ellipse 40% 60% at 70% 10%,  #3b82f6 0%, transparent 99%),
+    radial-gradient(ellipse 50% 50% at 30% 80%,  #a855f7 0%, transparent 99%);
+  background-size: 150% 150%;
+  filter: blur(40px) saturate(1.4);
+  animation: meshShift 10s ease-in-out infinite;
+}
+
+/* Слой 2: зернистость (тот самый "grain" из референса) */
+.header::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.4;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
 
 .logo {
   height: 32px;
@@ -214,6 +262,13 @@ body {
 /* ============================================ */
 /* ВИДЕО */
 /* ============================================ */
+.video-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
 .video-placeholder {
   position: relative;
   width: 200px;
@@ -232,6 +287,30 @@ body {
   object-fit: cover;
   background: #f3f4f6;
   border-radius: 12px;
+}
+
+.video-nav {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-arrow {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid #1f2937;
+  border-radius: 12px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.nav-arrow:hover {
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+  color: #ffffff;
+  border-color: transparent;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(99, 102, 241, 0.3);
 }
 
 /* ============================================ */
