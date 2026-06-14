@@ -39,8 +39,13 @@
                     <input type="checkbox" name="remember">
                     <span>Запомнить меня</span>
                 </label>
-                <a href="#" class="forgot-password">Забыли пароль?</a>
+                <a href="{% url 'forgot_password' %}" class="forgot-password">Забыли пароль?</a>
             </div>
+            {% if error %}
+        <div style="color: red; margin-bottom: 15px; font-weight: bold;">
+            {{ error }}
+        </div>
+    {% endif %}
 
             <button type="submit" class="btn-primary">Войти</button>
 

@@ -26,11 +26,13 @@ def home(request):
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.register_page, name='register'),
-    path('home/', views.home_page, name='home'),
     path('login/', views.login_page, name='login'),
+    path('forgot_password/', views.request_password_reset, name='forgot_password'),
+    path('home/', views.home_page, name='home'),
     path('favourites/', views.favourites_page, name='favourites'),
     path('api/categories/', views.get_categories, name='get_categories'),
     path('api/videos/', views.get_videos, name='get_videos'),
+    path('reset/<uidb64>/<token>/', views.reset_password_confirm, name='password_reset_confirm'),
 ]
 
 if settings.DEBUG:

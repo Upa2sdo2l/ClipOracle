@@ -85,9 +85,17 @@ DATABASES = {
     }
 }
 
-
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.ru'             # Адрес SMTP-сервера
+EMAIL_PORT = 465                         # Порт (обычно 465 для SSL или 587 для TLS)
+EMAIL_USE_SSL = True                     # Использовать SSL
+EMAIL_USE_TLS = False                    # Если SSL=True, то TLS обычно False
+EMAIL_HOST_USER = 'KolencukG@yandex.ru'  # Ваш email адрес
+EMAIL_HOST_PASSWORD = 'dmryjzawshjxkgze' # Пароль приложения (не основной пароль от почты!)
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER     # Отправитель по умолчанию
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {

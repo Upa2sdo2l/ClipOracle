@@ -7,13 +7,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="favorites.css" />
+  <link rel="stylesheet" href="/static/favorites.css" />
 </head>
 <body>
   <div class="container">
     <!-- Шапка — на всю ширину -->
     <header class="header">
-      <img src="logo.png" alt="ClipOracle Logo" class="logo" />
+      <img src="/static/logo.png" alt="ClipOracle Logo" class="logo" />
     </header>
 
     <!-- Основной контент -->
@@ -58,10 +58,10 @@
           <div class="video-info">
             <h4>${escapeHtml(fav.title || 'Без названия')}</h4>
             <div class="stats">
-              <span><img src="Icons/BaselineRemoveRedEye.svg" class="icon" alt="views"> ${fav.views || 0}</span>
-              <span><img src="Icons/InterfaceUserSingleCloseGeometricHumanPersonSingleUpUser.svg" class="icon" alt="likes"> ${fav.likes || 0}</span>
-              <span><img src="Icons/Like.svg" class="icon" alt="comments"> ${fav.comments || 0}</span>
-              <span><img src="Icons/Repost.svg" class="icon" alt="shares"> ${fav.shares || 0}</span>
+              <span><img src="/static/Icons/BaselineRemoveRedEye.svg" class="icon" alt="views"> ${fav.views || 0}</span>
+              <span><img src="/static/Icons/InterfaceUserSingleCloseGeometricHumanPersonSingleUpUser.svg" class="icon" alt="likes"> ${fav.likes || 0}</span>
+              <span><img src="/static/Icons/Like.svg" class="icon" alt="comments"> ${fav.comments || 0}</span>
+              <span><img src="/static/Icons/Repost.svg" class="icon" alt="shares"> ${fav.shares || 0}</span>
             </div>
           </div>
           <button class="delete-btn" data-id="${fav.id}">🗑️</button>
@@ -156,7 +156,7 @@
 
     // Клик по логотипу — возврат на главную
     document.querySelector('.logo').addEventListener('click', () => {
-      window.location.href = 'index.html';
+      window.location.href = "{% url 'home' %}";
     });
   });
 </script>

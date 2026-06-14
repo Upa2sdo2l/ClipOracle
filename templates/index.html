@@ -7,13 +7,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="../static/style.css" />
 </head>
 <body>
   <div class="container">
     <!-- Шапка -->
     <header class="header">
-      <img src="logo.png" alt="ClipOracle Logo" class="logo" />
+      <img src="../static/logo.png" alt="ClipOracle Logo" class="logo" />
 
       <!-- Выпадающее меню навигации -->
       <div class="nav-dropdown">
@@ -23,7 +23,7 @@
         </div>
       </div>
 
-      <a href="favorites.html" class="nav-tab" id="favorites-tab" data-i18n="favorites">Избранное</a>
+      <a href="{% url 'favourites' %}" class="nav-tab" id="favorites-tab" data-i18n="favourites">Избранное</a>
 
       <div class="lang-switcher">
         <span class="lang-label">RU</span>
@@ -37,7 +37,7 @@
       <!-- Поиск (скрывается на мобильных) -->
       <div class="search-box">
         <input type="text" placeholder="Search" id="search-input" data-i18n-placeholder="search_placeholder" />
-        <button><img src="Icons/Magnifier.svg" class="icon" alt="search"></button>
+        <button><img src="../static/Icons/Magnifier.svg" class="icon" alt="search"></button>
       </div>
     </header>
 
@@ -142,14 +142,14 @@
               <span class="more" id="more-info" data-i18n="more">more</span>
             </div>
             <div class="info-stats">
-              <div><img src="Icons/BaselineRemoveRedEye.svg" class="icon" alt="views"> <span id="views">0</span></div>
-              <div><img src="Icons/InterfaceUserSingleCloseGeometricHumanPersonSingleUpUser.svg" class="icon" alt="likes"> <span id="likes">0</span></div>
-              <div><img src="Icons/Like.svg" class="icon" alt="comments"> <span id="comments">0</span></div>
-              <div><img src="Icons/Repost.svg" class="icon" alt="shares"> <span id="shares">0</span></div>
+              <div><img src="/static/Icons/BaselineRemoveRedEye.svg" class="icon" alt="views"> <span id="views">0</span></div>
+              <div><img src="/static/Icons/InterfaceUserSingleCloseGeometricHumanPersonSingleUpUser.svg" class="icon" alt="likes"> <span id="likes">0</span></div>
+              <div><img src="/static/Icons/Like.svg" class="icon" alt="comments"> <span id="comments">0</span></div>
+              <div><img src="/static/Icons/Repost.svg" class="icon" alt="shares"> <span id="shares">0</span></div>
             </div>
             <!-- Кнопка "Добавить в избранное" -->
             <div style="margin-top: 12px; text-align: center;">
-              <button id="add-to-favorites" class="favorite-btn" data-i18n="add_fav"><img src="Icons/Like_not_active.svg" class="icon" id="fav-icon" alt="like"> Добавить в избранное</button>
+              <button id="add-to-favorites" class="favorite-btn" data-i18n="add_fav"><img src="/static/Icons/Like_not_active.svg" class="icon" id="fav-icon" alt="like"> Добавить в избранное</button>
             </div>
           </div>
         </section>
@@ -157,6 +157,7 @@
     </main>
 
     <footer class="footer">
+      <span>(C) CLIPORACLE 2025</span>
       <span>(C) CLIPORACLE 2025</span>
       <span>cliporacle@gmail.com</span>
     </footer>
@@ -567,7 +568,6 @@
           modal_info_title: 'Подробная аналитика',
           modal_info_subtitle: 'Детальные метрики и показатели эффективности',
           subscribers: 'Подписчики',
-          comments: 'Комментарии',
           shares_label: 'Репосты',
           likes_label: 'Лайки',
           traffic_sources: 'Источники трафика',
@@ -604,7 +604,6 @@
           modal_info_title: 'Detailed analytics',
           modal_info_subtitle: 'Detailed metrics and performance indicators',
           subscribers: 'Subscribers',
-          comments: 'Comments',
           shares_label: 'Shares',
           likes_label: 'Likes',
           traffic_sources: 'Traffic sources',
@@ -639,7 +638,7 @@
 
       document.getElementById('favorites-tab').addEventListener('click', (e) => {
         e.preventDefault();
-        window.location.href = 'favorites.html';
+        window.location.href = "{% url 'favourites' %}";
       });
 
       document.addEventListener('click', function(e) {
