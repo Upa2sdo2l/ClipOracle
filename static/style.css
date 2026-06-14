@@ -877,3 +877,207 @@ input:checked + .lang-slider {
 input:checked + .lang-slider:before {
   transform: translateX(22px);
 }
+
+/* ============================================ */
+/* МОДАЛЬНЫЕ ОКНА СТАТИСТИКИ */
+/* ============================================ */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(17, 24, 39, 0.4);
+  backdrop-filter: blur(8px);
+  z-index: 10000;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.modal-content {
+  background: #ffffff;
+  border-radius: 24px;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  padding: 24px;
+  position: relative;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.close-modal {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  font-size: 28px;
+  color: #9ca3af;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.close-modal:hover {
+  color: #ef4444;
+}
+
+.modal-header-container {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.modal-eye-icon {
+  font-size: 22px;
+  color: #6366f1;
+}
+
+.modal-header-container h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.2;
+}
+
+.modal-header-container p {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-top: 2px;
+}
+
+/* Сетка карточек показателей */
+.modal-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.modal-stats-grid.grid-2x2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.modal-stat-box {
+  background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 14px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+}
+
+.stat-label {
+  font-size: 11px;
+  color: #9ca3af;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.stat-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.stat-indicator {
+  font-size: 11px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.stat-indicator.green {
+  color: #10b981;
+}
+
+/* Секции-карточки внутри модального окна */
+.modal-section-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.01);
+}
+
+.modal-section-card h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 16px;
+}
+
+/* Контейнеры графиков */
+.modal-chart-container {
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 12px;
+  border: 1px solid #e5e7eb;
+}
+
+/* Прогресс-бары устройств и трафика */
+.device-list, .traffic-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.device-item, .traffic-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.device-meta, .traffic-meta {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.device-color {
+  width: 10px;
+  height: 100%;
+  aspect-ratio: 1;
+  border-radius: 3px;
+  margin-right: 8px;
+}
+
+.device-color.pink, .progress-bar-fill.pink { background-color: #ec4899; }
+.device-color.orange, .progress-bar-fill.orange { background-color: #f97316; }
+.device-color.blue, .progress-bar-fill.blue { background-color: #3b82f6; }
+.progress-bar-fill.purple { background-color: #a855f7; }
+
+.device-name {
+  color: #9ca3af;
+}
+
+.device-percent, .traffic-value {
+  margin-left: auto;
+  color: #111827;
+  font-weight: 700;
+}
+
+.traffic-name {
+  color: #9ca3af;
+}
+
+.progress-bar-bg {
+  width: 100%;
+  height: 8px;
+  background-color: #f3f4f6;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 10px;
+}

@@ -111,10 +111,24 @@
           <div class="chart-card">
             <div class="chart-header">
               <h4 data-i18n="views_header">ПРОСМОТРЫ</h4>
-              <span class="more" data-i18n="more">more</span>
+              <span class="more" id="more-views" data-i18n="more">more</span>
             </div>
             <div class="chart-area">
-              <img src="https://via.placeholder.com/300x150?text=График+Просмотров" alt="Views Chart" />
+              <svg id="views-chart-svg" viewBox="0 0 300 120" style="width: 100%; height: 120px; overflow: visible;">
+                <defs>
+                  <linearGradient id="chart-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#6366f1" />
+                    <stop offset="100%" stop-color="#a855f7" />
+                  </linearGradient>
+                </defs>
+                <!-- Grid Lines -->
+                <line x1="0" y1="20" x2="300" y2="20" stroke="#e5e7eb" stroke-width="1" />
+                <line x1="0" y1="60" x2="300" y2="60" stroke="#e5e7eb" stroke-width="1" />
+                <line x1="0" y1="100" x2="300" y2="100" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="3,3" />
+                
+                <!-- Main Trend Line -->
+                <path id="chart-path" d="" fill="none" stroke="url(#chart-gradient)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
               <div class="chart-labels">
                 <span>2дек</span>
                 <span>7дек</span>
@@ -125,7 +139,7 @@
           <div class="chart-card">
             <div class="chart-header">
               <h4 data-i18n="info_header">ОСНОВНАЯ ИНФОРМАЦИЯ</h4>
-              <span class="more" data-i18n="more">more</span>
+              <span class="more" id="more-info" data-i18n="more">more</span>
             </div>
             <div class="info-stats">
               <div><img src="Icons/BaselineRemoveRedEye.svg" class="icon" alt="views"> <span id="views">0</span></div>
@@ -147,6 +161,176 @@
       <span>cliporacle@gmail.com</span>
     </footer>
   </div>
+
+  <!-- Модальное окно 1: Детальная статистика просмотров -->
+  <div id="modal-views" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" id="close-views">&times;</span>
+      <div class="modal-header-container">
+        <span class="modal-eye-icon">👁️</span>
+        <div>
+          <h2 data-i18n="modal_views_title">Детальная статистика просмотров</h2>
+          <p data-i18n="modal_views_subtitle">Полный анализ просмотров за последние 7 дней</p>
+        </div>
+      </div>
+      
+      <div class="modal-stats-grid">
+        <div class="modal-stat-box">
+          <span class="stat-label" data-i18n="total_views">Всего просмотров</span>
+          <span class="stat-value" id="modal-total-views">245K</span>
+          <span class="stat-indicator green">+18.5% <span data-i18n="per_month">за месяц</span></span>
+        </div>
+        <div class="modal-stat-box">
+          <span class="stat-label" data-i18n="views_today">За сегодня</span>
+          <span class="stat-value" id="modal-today-views">5K</span>
+          <span class="stat-indicator green">+1%</span>
+        </div>
+        <div class="modal-stat-box">
+          <span class="stat-label" data-i18n="views_week">За неделю</span>
+          <span class="stat-value" id="modal-week-views">240K</span>
+          <span class="stat-indicator green">+99%</span>
+        </div>
+      </div>
+
+      <div class="modal-section-card">
+        <h3 data-i18n="views_dynamics">Динамика просмотров за месяц</h3>
+        <div class="modal-chart-container">
+          <svg id="modal-chart-svg" viewBox="0 0 300 120" style="width: 100%; height: 120px; overflow: visible;">
+            <defs>
+              <linearGradient id="modal-chart-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#6366f1" />
+                <stop offset="100%" stop-color="#a855f7" />
+              </linearGradient>
+            </defs>
+            <line x1="0" y1="20" x2="300" y2="20" stroke="#e5e7eb" stroke-width="1" />
+            <line x1="0" y1="60" x2="300" y2="60" stroke="#e5e7eb" stroke-width="1" />
+            <line x1="0" y1="100" x2="300" y2="100" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="3,3" />
+            <path id="modal-chart-path" d="" fill="none" stroke="url(#modal-chart-gradient)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <div class="chart-labels">
+            <span>2дек</span>
+            <span>7дек</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-section-card">
+        <h3 data-i18n="device_dist">Распределение по устройствам</h3>
+        <div class="device-list">
+          <div class="device-item">
+            <div class="device-meta">
+              <span class="device-color pink"></span>
+              <span class="device-name">Desktop</span>
+              <span class="device-percent">5%</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill pink" style="width: 5%"></div>
+            </div>
+          </div>
+          <div class="device-item">
+            <div class="device-meta">
+              <span class="device-color orange"></span>
+              <span class="device-name">Mobile</span>
+              <span class="device-percent">68%</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill orange" style="width: 68%"></div>
+            </div>
+          </div>
+          <div class="device-item">
+            <div class="device-meta">
+              <span class="device-color blue"></span>
+              <span class="device-name">Tablet</span>
+              <span class="device-percent">27%</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill blue" style="width: 27%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно 2: Подробная аналитика -->
+  <div id="modal-info" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" id="close-info">&times;</span>
+      <div class="modal-header-container">
+        <span class="modal-eye-icon">👁️</span>
+        <div>
+          <h2 data-i18n="modal_info_title">Подробная аналитика</h2>
+          <p data-i18n="modal_info_subtitle">Детальные метрики и показатели эффективности</p>
+        </div>
+      </div>
+
+      <div class="modal-stats-grid grid-2x2">
+        <div class="modal-stat-box">
+          <span class="stat-label" data-i18n="subscribers">Подписчики</span>
+          <span class="stat-value" id="modal-subs-val">5K</span>
+          <span class="stat-indicator green">+18.5% <span data-i18n="per_month">за месяц</span></span>
+        </div>
+        <div class="modal-stat-box">
+          <span class="stat-label" data-i18n="comments">Комментарии</span>
+          <span class="stat-value" id="modal-comments-val">20K</span>
+          <span class="stat-indicator green">+90% <span data-i18n="per_week">за неделю</span></span>
+        </div>
+        <div class="modal-stat-box">
+          <span class="stat-label" data-i18n="shares_label">Репосты</span>
+          <span class="stat-value" id="modal-shares-val">2K</span>
+          <span class="stat-indicator green">+95% <span data-i18n="per_week">за неделю</span></span>
+        </div>
+        <div class="modal-stat-box">
+          <span class="stat-label" data-i18n="likes_label">Лайки</span>
+          <span class="stat-value" id="modal-likes-val">95K</span>
+          <span class="stat-indicator green">+19% <span data-i18n="per_week">за неделю</span></span>
+        </div>
+      </div>
+
+      <div class="modal-section-card">
+        <h3 data-i18n="traffic_sources">Источники трафика</h3>
+        <div class="traffic-list">
+          <div class="traffic-item">
+            <div class="traffic-meta">
+              <span class="traffic-name" data-i18n="search_source">Поисковик</span>
+              <span class="traffic-value">10K</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill purple" style="width: 25%"></div>
+            </div>
+          </div>
+          <div class="traffic-item">
+            <div class="traffic-meta">
+              <span class="traffic-name" data-i18n="subs_source">Подписчики</span>
+              <span class="traffic-value">150K</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill purple" style="width: 85%"></div>
+            </div>
+          </div>
+          <div class="traffic-item">
+            <div class="traffic-meta">
+              <span class="traffic-name" data-i18n="recs_source">Рекомендации</span>
+              <span class="traffic-value">2,4K</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill purple" style="width: 15%"></div>
+            </div>
+          </div>
+          <div class="traffic-item">
+            <div class="traffic-meta">
+              <span class="traffic-name" data-i18n="link_source">По ссылке</span>
+              <span class="traffic-value">50</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill purple" style="width: 5%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
   <script>
     let currentCategoryId = null;
@@ -244,12 +428,58 @@
         videoPlayer.load();
       }
 
-      document.getElementById('views').textContent = video.views || '0';
+      const totalViews = video.views || 0;
+      document.getElementById('views').textContent = totalViews;
       document.getElementById('likes').textContent = video.likes || '0';
       document.getElementById('comments').textContent = video.comments || '0';
       document.getElementById('shares').textContent = video.shares || '0';
 
       window.currentVideo = video;
+
+      // Генерируем красивый график просмотров
+      // 70% просмотров за первые 2 дня, остальные 30% случайно распределены по остальным дням
+      const seed = video.id || 1;
+      const pseudoRandom = (s) => {
+        const x = Math.sin(s) * 10000;
+        return x - Math.floor(x);
+      };
+
+      const day1 = totalViews * 0.25;
+      const day2 = totalViews * 0.45;
+      const day3 = totalViews * (0.12 + (pseudoRandom(seed) - 0.5) * 0.04);
+      const day4 = totalViews * (0.04 + (pseudoRandom(seed + 1) - 0.5) * 0.02);
+      const day5 = totalViews * (0.02 + (pseudoRandom(seed + 2) - 0.5) * 0.01);
+      const day6 = totalViews * (0.05 + (pseudoRandom(seed + 3) - 0.5) * 0.02);
+      const day7 = totalViews * (0.07 + (pseudoRandom(seed + 4) - 0.5) * 0.03);
+
+      const dailyViews = [day1, day2, day3, day4, day5, day6, day7];
+      const maxVal = Math.max(...dailyViews);
+      const minVal = Math.min(...dailyViews);
+      const range = maxVal - minVal || 1;
+
+      // Точки для отрисовки линии в SVG (координаты X от 10 до 290, Y от 15 до 105)
+      const points = dailyViews.map((val, idx) => {
+        const x = 10 + idx * 46;
+        const y = 105 - ((val - minVal) / range) * 90;
+        return [x, y];
+      });
+
+      // Алгоритм построения плавной кривой Безье через точки
+      let d = `M ${points[0][0]} ${points[0][1]}`;
+      for (let i = 0; i < points.length - 1; i++) {
+        const p0 = points[i];
+        const p1 = points[i + 1];
+        const cpX1 = p0[0] + (p1[0] - p0[0]) / 2;
+        const cpY1 = p0[1];
+        const cpX2 = p0[0] + (p1[0] - p0[0]) / 2;
+        const cpY2 = p1[1];
+        d += ` C ${cpX1} ${cpY1}, ${cpX2} ${cpY2}, ${p1[0]} ${p1[1]}`;
+      }
+
+      const chartPath = document.getElementById('chart-path');
+      if (chartPath) {
+        chartPath.setAttribute('d', d);
+      }
 
       // Проверяем, находится ли текущее видео в избранном, и обновляем иконку
       const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
@@ -324,7 +554,27 @@
           views_header: 'ПРОСМОТРЫ',
           info_header: 'ОСНОВНАЯ ИНФОРМАЦИЯ',
           more: 'ещё',
-          add_fav: 'Добавить в избранное'
+          add_fav: 'Добавить в избранное',
+          modal_views_title: 'Детальная статистика просмотров',
+          modal_views_subtitle: 'Полный анализ просмотров за последние 7 дней',
+          total_views: 'Всего просмотров',
+          views_today: 'За сегодня',
+          views_week: 'За неделю',
+          per_month: 'за месяц',
+          per_week: 'за неделю',
+          views_dynamics: 'Динамика просмотров за месяц',
+          device_dist: 'Распределение по устройствам',
+          modal_info_title: 'Подробная аналитика',
+          modal_info_subtitle: 'Детальные метрики и показатели эффективности',
+          subscribers: 'Подписчики',
+          comments: 'Комментарии',
+          shares_label: 'Репосты',
+          likes_label: 'Лайки',
+          traffic_sources: 'Источники трафика',
+          search_source: 'Поисковик',
+          subs_source: 'Подписчики',
+          recs_source: 'Рекомендации',
+          link_source: 'По ссылке'
         },
         en: {
           categories: 'Categories ▼',
@@ -341,7 +591,27 @@
           views_header: 'VIEWS',
           info_header: 'BASIC INFO',
           more: 'more',
-          add_fav: 'Add to favorites'
+          add_fav: 'Add to favorites',
+          modal_views_title: 'Detailed views statistics',
+          modal_views_subtitle: 'Full analysis of views over the last 7 days',
+          total_views: 'Total Views',
+          views_today: 'Today',
+          views_week: 'This week',
+          per_month: 'per month',
+          per_week: 'per week',
+          views_dynamics: 'Monthly views dynamics',
+          device_dist: 'Device distribution',
+          modal_info_title: 'Detailed analytics',
+          modal_info_subtitle: 'Detailed metrics and performance indicators',
+          subscribers: 'Subscribers',
+          comments: 'Comments',
+          shares_label: 'Shares',
+          likes_label: 'Likes',
+          traffic_sources: 'Traffic sources',
+          search_source: 'Search Engine',
+          subs_source: 'Subscribers',
+          recs_source: 'Recommendations',
+          link_source: 'By link'
         }
       };
 
@@ -383,6 +653,59 @@
         e.stopPropagation();
         const menu = this.nextElementSibling;
         menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+      });
+
+      // Логика модальных окон
+      const modalViews = document.getElementById('modal-views');
+      const modalInfo = document.getElementById('modal-info');
+      const moreViewsBtn = document.getElementById('more-views');
+      const moreInfoBtn = document.getElementById('more-info');
+      const closeViewsBtn = document.getElementById('close-views');
+      const closeInfoBtn = document.getElementById('close-info');
+
+      function formatNumber(num) {
+        if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+        if (num >= 1000) return (num / 1000).toFixed(0) + 'K';
+        return num;
+      }
+
+      moreViewsBtn.addEventListener('click', () => {
+        if (!window.currentVideo) return;
+        const total = window.currentVideo.views || 0;
+        document.getElementById('modal-total-views').textContent = formatNumber(total);
+        document.getElementById('modal-today-views').textContent = formatNumber(Math.round(total * 0.05));
+        document.getElementById('modal-week-views').textContent = formatNumber(Math.round(total * 0.95));
+
+        // Копируем динамический путь графика в модальное окно
+        const chartPath = document.getElementById('chart-path');
+        const modalChartPath = document.getElementById('modal-chart-path');
+        if (chartPath && modalChartPath) {
+          modalChartPath.setAttribute('d', chartPath.getAttribute('d'));
+        }
+
+        modalViews.style.display = 'flex';
+      });
+
+      moreInfoBtn.addEventListener('click', () => {
+        if (!window.currentVideo) return;
+        const likes = window.currentVideo.likes || 0;
+        const comments = window.currentVideo.comments || 0;
+        const shares = window.currentVideo.shares || 0;
+
+        document.getElementById('modal-subs-val').textContent = formatNumber(Math.round(likes * 0.08));
+        document.getElementById('modal-comments-val').textContent = formatNumber(comments);
+        document.getElementById('modal-shares-val').textContent = formatNumber(shares);
+        document.getElementById('modal-likes-val').textContent = formatNumber(likes);
+
+        modalInfo.style.display = 'flex';
+      });
+
+      closeViewsBtn.addEventListener('click', () => modalViews.style.display = 'none');
+      closeInfoBtn.addEventListener('click', () => modalInfo.style.display = 'none');
+
+      window.addEventListener('click', (e) => {
+        if (e.target === modalViews) modalViews.style.display = 'none';
+        if (e.target === modalInfo) modalInfo.style.display = 'none';
       });
 
       // Навигация видео
