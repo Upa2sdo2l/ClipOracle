@@ -1,0 +1,24 @@
+services:
+  db:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=cliporacle
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=9348257610
+
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgres://admin:9348257610@db:5432/cliporacle
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
