@@ -4,13 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ClipOracle — Избранное</title>
-  <link rel="stylesheet" href="../static/favorites.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="favorites.css" />
 </head>
 <body>
   <div class="container">
     <!-- Шапка — на всю ширину -->
     <header class="header">
-      <img src="../static/logo.png" alt="ClipOracle Logo" class="logo" />
+      <img src="logo.png" alt="ClipOracle Logo" class="logo" />
     </header>
 
     <!-- Основной контент -->
@@ -44,25 +47,26 @@
       return; // Пусто — ничего не показываем
     }
 
-    favorites.forEach(fav => {
-      const item = document.createElement('div');
-      item.className = 'favorite-item';
-      item.innerHTML = `
-        <div class="video-thumb" data-id="${fav.id}" data-path="${fav.file_path || ''}">
-          <img src="https://via.placeholder.com/120x68?text=Видео" alt="Video" />
-          <div class="play-button">▶</div>
-        </div>
-        <div class="video-info">
-          <h4>${escapeHtml(fav.title || 'Без названия')}</h4>
-          <div class="stats">
-            <span>👁️ ${fav.views || 0}</span>
-            <span>👤 ${fav.likes || 0}</span>
-            <span>❤️ ${fav.comments || 0}</span>
-            <span>📤 ${fav.shares || 0}</span>
+      favorites.forEach(fav => {
+        const item = document.createElement('div');
+        item.className = 'favorite-item';
+        item.innerHTML = `
+          <div class="video-thumb" data-id="${fav.id}" data-path="${fav.file_path || ''}">
+            <img src="https://via.placeholder.com/120x68?text=Видео" alt="Video" />
+            <div class="play-button">▶</div>
           </div>
-        </div>
-        <button class="delete-btn" data-id="${fav.id}">🗑️</button>
-      `;
+          <div class="video-info">
+            <h4>${escapeHtml(fav.title || 'Без названия')}</h4>
+            <div class="stats">
+              <span><img src="Icons/BaselineRemoveRedEye.svg" class="icon" alt="views"> ${fav.views || 0}</span>
+              <span><img src="Icons/InterfaceUserSingleCloseGeometricHumanPersonSingleUpUser.svg" class="icon" alt="likes"> ${fav.likes || 0}</span>
+              <span><img src="Icons/Like.svg" class="icon" alt="comments"> ${fav.comments || 0}</span>
+              <span><img src="Icons/Repost.svg" class="icon" alt="shares"> ${fav.shares || 0}</span>
+            </div>
+          </div>
+          <button class="delete-btn" data-id="${fav.id}">🗑️</button>
+        `;
+
 
       // Клик по кнопке ▶ — открываем видео
       item.querySelector('.play-button').addEventListener('click', (e) => {
@@ -152,7 +156,7 @@
 
     // Клик по логотипу — возврат на главную
     document.querySelector('.logo').addEventListener('click', () => {
-      window.location.href = '{% url 'home' %}';
+      window.location.href = 'index.html';
     });
   });
 </script>
